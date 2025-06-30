@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Reservas</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/a2e0fc58d1.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Barra de navegación -->
+    <div class="navbar">
+        <div class="navbar-contenido">
+            <h1>Sistema de Reservas</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <form id="form-reserva" class="formulario">
+            <input type="hidden" id="reserva-id">
+
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" placeholder="Ej. Ana López" required>
+
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" placeholder="Ej. 8888-8888" required>
+
+            <label for="fecha">Fecha</label>
+            <input type="date" id="fecha" required>
+
+            <label for="hora">Hora</label>
+            <input type="time" id="hora" required>
+
+            <label for="personas">Cantidad de personas</label>
+            <input type="number" id="personas" min="1" max="20" required>
+
+            <div class="botones-form">
+                <button type="submit">Guardar</button>
+                <button type="reset">Limpiar</button>
+            </div>
+        </form>
+
+        <!-- Aquí se muestran los mensajes de estado -->
+        <div id="mensaje" class="mensaje-estado"></div>
+
+        <!-- Lista de reservas -->
+        <section id="lista-reservas" class="lista-reservas">
+            <!-- contenido dinámico generado por script.js -->
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
