@@ -5,33 +5,69 @@
 
 ## 📋 Descripción
 
-Sistema web para la gestión de reservas de un restaurante que permite a los clientes realizar reservas en línea y al personal administrativo gestionar las mesas, horarios y disponibilidad del establecimiento.
+Sistema web completo para la gestión de reservas de restaurante desarrollado con FastAPI (Python) como backend y HTML/CSS/JavaScript vanilla como frontend. Permite a los clientes realizar, editar y eliminar reservas de manera intuitiva, con una interfaz moderna y responsiva.
 
 ## ✨ Características Principales
 
-- **Reservas en línea**: Los clientes pueden realizar reservas de forma fácil e intuitiva
-- **Gestión de mesas**: Administración del layout del restaurante y disponibilidad
-- **Control de horarios**: Configuración de horarios de atención y disponibilidad
-- **Panel administrativo**: Interface para el personal del restaurante
-- **Notificaciones**: Sistema de confirmación de reservas
-- **Historial de reservas**: Seguimiento de reservas pasadas y futuras
+- **API REST completa** con FastAPI
+- **CRUD completo** de reservas (Crear, Leer, Actualizar, Eliminar)
+- **Interfaz moderna** con CSS Grid y animaciones
+- **Validación de datos** con Pydantic
+- **Base de datos MySQL** para persistencia
+- **Despliegue en la nube** con Render
+- **CORS habilitado** para desarrollo local
+- **Servicio de archivos estáticos** integrado
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Backend**: PHP
-- **Base de Datos**: MySQL
-- **Framework CSS**: Bootstrap (opcional)
-- **Servidor**: Apache/Nginx
+### Backend
+- **FastAPI** - Framework web moderno y rápido
+- **Python 3.x** - Lenguaje de programación
+- **Pydantic** - Validación de datos
+- **MySQL Connector** - Conexión a base de datos
+- **Uvicorn** - Servidor ASGI
+- **python-dotenv** - Gestión de variables de entorno
 
-## 📦 Instalación
+### Frontend
+- **HTML5** - Estructura
+- **CSS3** - Estilos con Grid y Flexbox
+- **JavaScript (Vanilla)** - Interactividad
+- **Font Awesome** - Iconos
+
+### Base de Datos
+- **MySQL** - Sistema de gestión de base de datos
+
+### Despliegue
+- **Render** - Plataforma de despliegue en la nube
+
+## 📁 Estructura del Proyecto
+
+```
+reservas-restaurante/
+├── backend/
+│   ├── main_fastapi_app.py    # Aplicación principal FastAPI
+│   ├── main.py                # Versión básica de la API
+│   ├── models.py              # Modelos Pydantic
+│   ├── crud.py                # Operaciones CRUD
+│   ├── database.py            # Conexión a base de datos
+│   ├── requirements.txt       # Dependencias Python
+│   └── .env                   # Variables de entorno
+├── frontend/
+│   ├── index.html            # Página principal
+│   ├── script.js             # Lógica JavaScript
+│   └── styles.css            # Estilos CSS
+├── base-de-datos/
+│   └── restaurante.sql       # Script de creación de BD
+└── render.yaml               # Configuración de despliegue
+```
+
+## 🚀 Instalación y Configuración
 
 ### Prerrequisitos
 
-- Servidor web (XAMPP, WAMP, LAMP)
-- PHP 7.4 o superior
+- Python 3.8 o superior
 - MySQL 5.7 o superior
-- Navegador web moderno
+- Git
 
 ### Pasos de instalación
 
@@ -42,119 +78,175 @@ Sistema web para la gestión de reservas de un restaurante que permite a los cli
    ```
 
 2. **Configurar la base de datos**
-   - Crear una base de datos MySQL llamada `reservas_restaurante`
-   - Importar el archivo `database/schema.sql`
-   - Configurar las credenciales en `config/database.php`
+   ```sql
+   -- Ejecutar en MySQL
+   CREATE DATABASE restaurante;
+   USE restaurante;
+   
+   CREATE TABLE reservas (
+       id INT AUTO_INCREMENT PRIMARY KEY,
+       nombre VARCHAR(100),
+       telefono VARCHAR(20),
+       fecha DATE,
+       hora TIME,
+       personas INT
+   );
+   ```
 
-3. **Configurar el servidor**
-   - Copiar los archivos al directorio del servidor web
-   - Asegurar permisos de escritura en carpetas necesarias
+3. **Configurar variables de entorno**
+   ```bash
+   # Crear archivo backend/.env
+   user=tu_usuario_mysql
+   password=tu_password_mysql
+   database=restaurante
+   ```
 
-4. **Acceder al sistema**
-   - Abrir `http://localhost/reservas-restaurante` en el navegador
+4. **Instalar dependencias**
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   ```
 
-## 🚀 Uso del Sistema
+5. **Ejecutar la aplicación**
+   ```bash
+   # Desde la carpeta backend
+   python main_fastapi_app.py
+   ```
 
-### Para Clientes
+6. **Acceder al sistema**
+   - Frontend: `http://localhost:8000`
+   - API Documentation: `http://localhost:8000/docs`
 
-1. **Realizar una reserva**:
-   - Seleccionar fecha y hora deseada
-   - Especificar número de personas
-   - Proporcionar datos de contacto
-   - Confirmar la reserva
+## 🔧 API Endpoints
 
-2. **Consultar reserva**:
-   - Ingresar código de reserva
-   - Ver detalles y estado de la reserva
+### Reservas
 
-### Para Administradores
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `POST` | `/reservas/` | Crear nueva reserva |
+| `GET` | `/reservas/` | Obtener todas las reservas |
+| `PUT` | `/reservas/{id}` | Actualizar reserva por ID |
+| `DELETE` | `/reservas/{id}` | Eliminar reserva por ID |
 
-1. **Gestión de reservas**:
-   - Ver todas las reservas del día/semana/mes
-   - Confirmar o cancelar reservas
-   - Modificar detalles de reservas existentes
+### Ejemplo de uso
 
-2. **Configuración del restaurante**:
-   - Gestionar mesas y capacidad
-   - Configurar horarios de atención
-   - Establecer días de cierre
+```javascript
+// Crear reserva
+const reserva = {
+    nombre: "Juan Pérez",
+    telefono: "8888-8888",
+    fecha: "2025-07-15",
+    hora: "19:30:00",
+    personas: 4
+};
 
-## 📁 Estructura del Proyecto
-
+fetch("http://localhost:8000/reservas/", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(reserva)
+});
 ```
-reservas-restaurante/
-├── assets/
-│   ├── css/
-│   ├── js/
-│   └── images/
-├── config/
-│   └── database.php
-├── database/
-│   └── schema.sql
-├── includes/
-│   ├── header.php
-│   ├── footer.php
-│   └── functions.php
-├── admin/
-│   ├── index.php
-│   ├── reservas.php
-│   └── configuracion.php
-├── api/
-│   ├── crear_reserva.php
-│   └── consultar_reserva.php
-├── index.php
-├── reservar.php
-├── consultar.php
-└── README.md
+
+## 🎨 Características del Frontend
+
+- **Diseño responsivo** con CSS Grid
+- **Animaciones suaves** y efectos hover
+- **Validación de formularios** en tiempo real
+- **Interfaz intuitiva** con iconos de Font Awesome
+- **Mensajes de estado** con animaciones
+- **Edición inline** de reservas
+- **Confirmación de eliminación**
+
+## 🗃️ Modelo de Datos
+
+```python
+class Reserva(BaseModel):
+    nombre: str        # Nombre completo del cliente
+    telefono: str      # Número de teléfono
+    fecha: str         # Fecha de la reserva (YYYY-MM-DD)
+    hora: str          # Hora de la reserva (HH:MM:SS)
+    personas: int      # Cantidad de personas
 ```
 
-## 🗃️ Base de Datos
+## 🚀 Despliegue
 
-### Principales tablas:
+El proyecto está configurado para desplegarse automáticamente en **Render** usando el archivo `render.yaml`:
 
-- **usuarios**: Información de administradores
-- **clientes**: Datos de los clientes
-- **mesas**: Configuración de mesas del restaurante
-- **reservas**: Registro de todas las reservas
-- **horarios**: Configuración de horarios de atención
+```yaml
+services:
+  - type: web
+    name: reservas-restaurant
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main_fastapi_app:app --host 0.0.0.0 --port 10000
+    plan: free
+```
 
-## 🎨 Capturas de Pantalla
+### Variables de entorno en producción
+- `user`: Usuario de MySQL
+- `password`: Contraseña de MySQL  
+- `database`: Nombre de la base de datos
 
-*[Aquí se pueden agregar capturas de pantalla del sistema en funcionamiento]*
+## 🧪 Funcionalidades Implementadas
 
-## 🤝 Contribuidores
+### ✅ Completadas
+- [x] Crear reservas
+- [x] Listar reservas
+- [x] Editar reservas
+- [x] Eliminar reservas
+- [x] Validación de datos
+- [x] Interfaz responsive
+- [x] Conexión a base de datos
+- [x] API REST completa
+- [x] Manejo de errores
+- [x] Configuración de CORS
 
-- **jmiguelugalde** - Desarrollador principal
-- *[Agregar otros miembros del equipo]*
+### 🔮 Mejoras Futuras
+- [ ] Autenticación de usuarios
+- [ ] Sistema de roles (admin/cliente)
+- [ ] Notificaciones por email
+- [ ] Calendario visual
+- [ ] Gestión de mesas
+- [ ] Historial de reservas
+- [ ] Dashboard de analytics
+- [ ] API de pagos
 
-## 📝 Funcionalidades Futuras
+## 🐛 Solución de Problemas
 
-- [ ] Integración con sistemas de pago
-- [ ] Notificaciones por email/SMS
-- [ ] App móvil
-- [ ] Sistema de reseñas y calificaciones
-- [ ] Integración con redes sociales
-- [ ] Dashboard con analytics
+### Error de conexión a la base de datos
+```bash
+# Verificar que MySQL esté ejecutándose
+sudo systemctl status mysql
 
-## 🐛 Reporte de Bugs
+# Verificar credenciales en .env
+cat backend/.env
+```
 
-Si encuentras algún error o tienes sugerencias, por favor:
+### Error de CORS
+```python
+# Ya está configurado en main_fastapi_app.py
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
 
-1. Revisa si el issue ya existe
-2. Crea un nuevo issue con:
-   - Descripción detallada del problema
-   - Pasos para reproducir el error
-   - Capturas de pantalla si es necesario
+## 👥 Equipo de Desarrollo
+
+- **@jmiguelugalde** - Desarrollador principal
+- *Lead University - Programación Web*
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+Este proyecto es un trabajo académico desarrollado para Lead University.
 
 ## 📞 Contacto
 
-**Lead University - Programación Web**  
-Segundo Cuatrimestre 2025
+**Lead University**  
+Programación Web - Segundo Cuatrimestre 2025
 
 ---
 
-⭐ **¡No olvides dar una estrella al proyecto si te fue útil!** ⭐
+⭐ **Sistema desarrollado con FastAPI y MySQL** ⭐
